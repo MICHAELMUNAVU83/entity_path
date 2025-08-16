@@ -332,8 +332,8 @@
         <h1>Real Estate Intent Analysis</h1>
         <div class="alert">
           <p>
-            <strong>Primary Intent: Seller</strong> - Driven by a total score of
-            <strong>26</strong> across <strong>5</strong> signals.
+            <strong>Primary Intent: Lessee</strong> - Driven by a total score of
+            <strong>20</strong> across <strong>4</strong> signals.
           </p>
         </div>
       </div>
@@ -352,7 +352,6 @@
         </div>
       </div>
 
-      <!-- Overview Tab -->
       <div id="overview" class="tab-content active">
         <div class="grid">
           <div class="card">
@@ -380,31 +379,30 @@
             <h2>Key Metrics</h2>
             <div class="metrics-grid">
               <div class="metric">
-                <div class="metric-value">26</div>
+                <div class="metric-value">17</div>
                 <div class="metric-label">Seller Score</div>
-                <div class="metric-sublabel">5 signals</div>
-              </div>
-              <div class="metric">
-                <div class="metric-value">25</div>
-                <div class="metric-label">Lessee Score</div>
-                <div class="metric-sublabel">6 signals</div>
-              </div>
-              <div class="metric">
-                <div class="metric-value">14</div>
-                <div class="metric-label">Lessor Score</div>
-                <div class="metric-sublabel">5 signals</div>
-              </div>
-              <div class="metric">
-                <div class="metric-value">12</div>
-                <div class="metric-label">Buyer Score</div>
                 <div class="metric-sublabel">4 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">20</div>
+                <div class="metric-label">Lessee Score</div>
+                <div class="metric-sublabel">4 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">9</div>
+                <div class="metric-label">Lessor Score</div>
+                <div class="metric-sublabel">3 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">11</div>
+                <div class="metric-label">Buyer Score</div>
+                <div class="metric-sublabel">3 signals</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Signals Tab -->
       <div id="signals" class="tab-content">
         <div class="signal-card">
           <div class="signal-header">
@@ -413,8 +411,8 @@
               Dissolving entity often liquidates property assets.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-seller">Seller: 9</span>
-              <span class="score-badge score-buyer">Buyer: 3</span>
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
               <span class="score-badge score-zero">Lessor: 0</span>
               <span class="score-badge score-zero">Lessee: 0</span>
             </div>
@@ -422,22 +420,11 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The entity status is active with no current dissolution or
-                suspension, indicating it is not dissolving or liquidating
-                assets at this time. Therefore, the dissolution date signal does
-                not suggest an imminent liquidation or transfer, resulting in a
-                high seller score and low scores for other intents.
-              </p>
+              <p>No dissolution date found.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Entity status is active, no dissolution date provided, and
-                analysis indicates no signs of distress or imminent dissolution.
-                The entity has met all filing requirements and remains
-                operational.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -452,32 +439,18 @@
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
               <span class="score-badge score-zero">Buyer: 0</span>
-              <span class="score-badge score-lessor">Lessor: 3</span>
-              <span class="score-badge score-lessee">Lessee: 2</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The LLC was formed over 6 years ago with minimal operational
-                activity and no immediate space or operational needs, indicating
-                a passive or holding purpose rather than active leasing or
-                purchasing intent. The low operational signals and long
-                formation age suggest limited current engagement as a seller or
-                buyer, but some potential for future leasing as a lessor or
-                lessee exists due to strategic considerations.
-              </p>
+              <p>Signal not triggered (age is <60 or >365 days).</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Entity formed over 6 years ago (2009-02-20), with medium
-                operational indicators but no active operational signals or
-                immediate space requirements. Formation age is 6019 days, and
-                the detailed analysis indicates a passive, long-term ownership
-                structure with low current leasing or purchasing activity.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -491,30 +464,18 @@
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
               <span class="score-badge score-zero">Buyer: 0</span>
-              <span class="score-badge score-lessee">Lessor: 2</span>
-              <span class="score-badge score-lessee">Lessee: 3</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The LLC formation exceeds 6 years with no active operational
-                signals, indicating a passive or holding purpose rather than
-                immediate leasing activity. The formation age and lack of
-                operational indicators suggest minimal current leasing intent,
-                with a slight possibility of future leasing or sale.
-              </p>
+              <p>Entity is older than 60 days.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Entity formed over 6 years ago (6019 days), with medium
-                operational indicators but no active operational signals or
-                immediate space needs. Formation pattern indicates a passive
-                holding or administrative purpose, aligning with low leasing
-                intent.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -537,17 +498,19 @@
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The entity name 'HBC OFFICE, LLC' does not contain any
-                high-signal keywords such as 'Capital' or 'Holdings'. It appears
-                to be a standard LLC without indicators of an investor or
-                acquirer role.
+                The entity name 'HBC OFFICE, LLC' does not contain high-signal
+                keywords like 'Capital' or 'Holdings' that indicate an investor
+                or acquirer. It also lacks medium-signal keywords such as
+                'Group' or 'Enterprises'. Therefore, the scores for buyer,
+                seller, lessor, and lessee are all minimal.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
               <p>
-                Entity name lacks high-signal keywords; no evidence of
-                investment entity patterns based on provided name and analysis.
+                Entity name 'HBC OFFICE, LLC' contains no keywords from the
+                high-signal list ('Capital', 'Holdings', etc.) or medium-signal
+                list ('Group', 'Enterprises', etc.).
               </p>
             </div>
           </div>
@@ -562,7 +525,7 @@
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
-              <span class="score-badge score-buyer">Buyer: 3</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
               <span class="score-badge score-zero">Lessor: 0</span>
               <span class="score-badge score-zero">Lessee: 0</span>
             </div>
@@ -570,20 +533,11 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The data indicates limited recent hiring activity for
-                acquisition roles, with the last relevant signals over 180 days
-                ago. The current signals do not suggest immediate acquisition
-                capacity building.
-              </p>
+              <p>No recent acquisition-focused hiring detected.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Team expansion analysis shows only one senior-level addition
-                with signals over 180 days old, and no recent hiring activity
-                for acquisition-focused roles within the past 90 days.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -606,13 +560,14 @@
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The entity is a medium operational business formed over 6 years
-                ago with no active operational signals or immediate space needs,
-                indicating it is not currently a lessee but has the potential to
-                become one in the future. Given its formation history and
-                operational indicators, it aligns with the profile of a new
-                non-real estate business that could lease space if operational
-                activity increases.
+                The entity is a new, operational business with medium
+                operational indicators and formed over 6 years ago, indicating a
+                potential for future leasing activity. Currently, there are no
+                active operational signals or immediate space needs, but the
+                business type and formation pattern suggest it could become a
+                lessee in the future. Based on the rationale, such entities are
+                highly likely to be lessees once operational signals or space
+                requirements emerge.
               </p>
             </div>
             <div class="evidence">
@@ -620,8 +575,9 @@
               <p>
                 Formation exceeds 6 years with medium operational indicators and
                 no active operational signals; business type is medium
-                operational; no documented immediate space requirements; long
-                formation history suggests passive or holding purpose.
+                operational; no documented immediate space needs; formation
+                pattern indicates a passive or administrative purpose rather
+                than immediate leasing activity.
               </p>
             </div>
           </div>
@@ -644,24 +600,11 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The NAICS code does not fall within the must-have-space
-                categories such as Retail, Food, Gyms, or Healthcare. Despite
-                some operational indicators, current signals suggest low
-                immediate space dependency and leasing activity. The entity's
-                long formation history with minimal operational signals
-                indicates a passive or investment-oriented purpose rather than
-                active leasing or operational needs.
-              </p>
+              <p>Business industry is not on the space-dependent list.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                The detailed analysis states that the entity has no active
-                operational signals, minimal space requirements, and is more
-                aligned with a passive holding or administrative purpose.
-                Behavioral indicators show low dependency on physical space.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -677,30 +620,17 @@
               <span class="score-badge score-zero">Seller: 0</span>
               <span class="score-badge score-zero">Buyer: 0</span>
               <span class="score-badge score-zero">Lessor: 0</span>
-              <span class="score-badge score-lessee">Lessee: 7</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The 'high_operational_business_model' signal is scored based on
-                the absence of the 'commercial_space_dependency' indicator and
-                the presence of a medium operational model, which aligns with
-                the scoring rule for lessee signals. Since
-                'commercial_space_dependency' was not triggered, the lessee
-                score is maximized at 7.
-              </p>
+              <p>Business is not classified as high-operational.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Behavioral indicators show low commercial space dependency and
-                low immediate space need, with a medium operational model. The
-                detailed analysis confirms minimal current activity and no
-                active operational signals, supporting a high lessee score based
-                on the scoring criteria.
-              </p>
+              <p>N/A</p>
             </div>
           </div>
         </div>
@@ -722,20 +652,11 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>
-                The statutory agent information is missing, which indicates
-                administrative oversight. According to scoring guidance, this
-                results in a high signal for the seller intent, suggesting
-                potential distress or compliance issues.
-              </p>
+              <p>Registered agent information is missing.</p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                The statutory agent 'MICHAEL P WEST' has an empty address,
-                email, and mailing address fields, indicating missing agent
-                info. The entity is active but shows administrative gaps.
-              </p>
+              <p>Agent field was empty.</p>
             </div>
           </div>
         </div>
@@ -749,30 +670,35 @@
             </div>
             <div class="signal-scores">
               <span class="score-badge score-seller">Seller: 6</span>
-              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-buyer">Buyer: 5</span>
               <span class="score-badge score-lessor">Lessor: 4</span>
-              <span class="score-badge score-zero">Lessee: 0</span>
+              <span class="score-badge score-lessee">Lessee: 7</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner exhibits pain points related to compliance and
-                operational efficiency, indicating operational bottlenecks and
-                administrative issues. These are aligned with operational
-                bottlenecks for lessors, but there is no evidence of financial
-                strain or operational issues specific to buyers or lessees.
+                The owner faces operational bottlenecks and compliance issues,
+                indicated by pain points such as administrative and compliance
+                concerns, aligning with operational and administrative pain
+                categories. The presence of administrative issues and
+                operational efficiency focus suggests moderate operational and
+                compliance pain points, scoring around 5-6. Financial strain
+                appears less prominent, and strategic/growth gaps are not
+                explicitly indicated, leading to moderate scores.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
               <p>
-                Pain points include 'Potential administrative or compliance
-                issues' and 'Addressing compliance and operational efficiency,'
-                which correspond to operational bottlenecks and compliance/admin
-                pain points. No indications of financial strain or operational
-                bottlenecks for tenants or buyers are present.
+                The data highlights potential administrative or compliance
+                issues and operational efficiency concerns, which correspond to
+                operational bottlenecks and compliance/admin pain points. The
+                owner’s focus on operational efficiency, compliance, and
+                existing vendor relationships supports this assessment. No
+                explicit financial strain or growth gap pain points are evident,
+                aligning with moderate scores.
               </p>
             </div>
           </div>
@@ -796,24 +722,24 @@
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner is primarily a real estate-focused industry player
-                with significant experience and local market influence,
-                indicating moderate influence in real estate transactions. The
-                influence level is enhanced by their active network and
-                established relationships, but their business model and industry
-                focus suggest a moderate to low influence in broader real estate
-                decision-making beyond their immediate operations.
+                The owner is primarily a real estate-focused professional with
+                extensive experience in property management and development,
+                indicating a moderate influence level. Their network size is
+                medium, which slightly reduces their influence score. The
+                influence type is more aligned with real estate activities
+                rather than broad business leadership, resulting in moderate
+                scores across all categories.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
               <p>
                 Owner's industry focus is on Commercial Real Estate Development
-                with active local market involvement, 16 years in business, and
-                established relationships with local banks, construction
-                companies, and real estate associations. Their influence is
-                primarily within their operational scope, not necessarily
-                extending to broader market influence.
+                with 16 years in business, active involvement in local real
+                estate associations, and established relationships with brokers,
+                lenders, and service providers. Their network size is medium,
+                and their influence is primarily within the real estate sector,
+                not broader business industries.
               </p>
             </div>
           </div>
@@ -827,9 +753,9 @@
               are direct indicators of intent.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-lessee">Seller: 2</span>
-              <span class="score-badge score-lessee">Buyer: 2</span>
-              <span class="score-badge score-lessee">Lessor: 2</span>
+              <span class="score-badge score-seller">Seller: 2</span>
+              <span class="score-badge score-buyer">Buyer: 2</span>
+              <span class="score-badge score-lessor">Lessor: 2</span>
               <span class="score-badge score-lessee">Lessee: 2</span>
             </div>
           </div>
@@ -837,29 +763,26 @@
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner_post_frequency data does not indicate recent
-                transaction-related posts or market trend commentary. Posts
-                appear to be more informational and strategic, with no direct
-                signals of active buying, selling, leasing, or tenant activity.
-                The content is consistent with ongoing operational and
-                development updates rather than transactional intent.
+                The owner_post_frequency data indicates primarily generic or
+                market commentary posts, with no transaction-related content.
+                Posts are likely older than 180 days, leading to a low score
+                across all categories. There is no recent or direct transaction
+                activity evident from the data.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
               <p>
-                No recent posts about property transactions, acquisitions,
-                leasing activities, or market trend commentary were identified.
-                Posts are aligned with industry reports, market analysis, and
-                strategic development, which score low on transaction intent and
-                are subject to time decay.
+                The rationale specifies that transaction-related posts score
+                7-8, market commentary scores 5, and generic posts score 2. The
+                data suggests posts are not recent and lack direct transaction
+                content, resulting in baseline scores of 2 for all signals.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Executive Summary Tab -->
       <div id="summary" class="tab-content">
         <div class="summary-section">
           <h2>Executive Summary</h2>
@@ -867,21 +790,22 @@
           <div class="summary-box summary-blue">
             <h3>Analysis Summary</h3>
             <p>
-              The data indicates a strong seller and lessee intent, with high
-              average scores of 5.2 and 4.2 respectively, suggesting active
-              disposition and leasing opportunities. Buyer and lessor signals
-              are comparatively weaker, highlighting a potential market shift
-              towards asset liquidation and occupancy. This environment favors
-              pursuing strategic dispositions and leasing initiatives to
-              capitalize on current market momentum.
+              The data indicates a strong and highly confident interest from
+              lessees, with the highest average intent score of 5.0 across
+              multiple signals, suggesting active demand for leasing
+              opportunities. Conversely, seller and buyer signals are moderate,
+              while lessor intent remains relatively low, highlighting a current
+              market environment favoring leasing over sales or ownership
+              transfers. This trend underscores the importance of focusing on
+              lease-driven strategies in the near term.
             </p>
           </div>
 
           <div class="summary-box summary-green">
             <h3>Recommended Action</h3>
             <p>
-              Proceed with targeted outreach to potential sellers and lessees to
-              accelerate transaction opportunities.
+              Prioritize expanding leasing opportunities and engage with
+              high-intent lessees to capitalize on current market demand.
             </p>
           </div>
 
@@ -889,22 +813,21 @@
             <h3>Key Insights</h3>
             <ul>
               <li>
-                Seller intent is the strongest signal with 26 total points
-                across 5 indicators
+                Lessee intent is the strongest signal with 20 total points
+                across 4 indicators.
               </li>
               <li>
-                Lessee intent follows closely with 25 total points across 6
-                indicators
+                Seller intent follows with 17 total points across 4 indicators.
               </li>
               <li>
-                Administrative issues and pain points are driving seller
-                behavior
+                Lessee behavior is driven by the 'new non-real estate business'
+                and 'owner pain points' signals.
               </li>
               <li>
-                Operational business model signals indicate strong leasing
-                potential
+                Seller intent is driven by 'missing agent info' and 'owner pain
+                points'.
               </li>
-              <li>Investment and acquisition signals are relatively weak</li>
+              <li>Buyer and Lessor signals are comparatively weaker.</li>
             </ul>
           </div>
         </div>
@@ -941,7 +864,7 @@
             datasets: [
               {
                 label: "Total Score",
-                data: [26, 12, 14, 25],
+                data: [17, 11, 9, 20],
                 backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
                 borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
                 borderWidth: 1,
@@ -959,7 +882,7 @@
             scales: {
               y: {
                 beginAtZero: true,
-                max: 30,
+                max: 25,
               },
             },
           },
@@ -976,7 +899,7 @@
             datasets: [
               {
                 label: "Average Score",
-                data: [5.2, 3.0, 2.8, 4.2],
+                data: [4.3, 3.7, 3.0, 5.0],
                 backgroundColor: "rgba(59, 130, 246, 0.2)",
                 borderColor: "rgba(59, 130, 246, 1)",
                 borderWidth: 2,
@@ -1017,7 +940,7 @@
             labels: ["Seller", "Buyer", "Lessor", "Lessee"],
             datasets: [
               {
-                data: [26, 12, 14, 25],
+                data: [17, 11, 9, 20],
                 backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
                 borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
                 borderWidth: 2,
