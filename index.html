@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate Intent Analysis Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f9fafb;
+        color: #374151;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .header {
+        margin-bottom: 32px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 8px;
+      }
+
+      .alert {
+        background-color: #dbeafe;
+        border-left: 4px solid #3b82f6;
+        padding: 16px;
+        margin-bottom: 24px;
+        border-radius: 4px;
+      }
+
+      .alert p {
+        color: #1e40af;
+        font-size: 0.875rem;
+      }
+
+      .tabs {
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 32px;
+      }
+
+      .tab-nav {
+        display: flex;
+        gap: 32px;
+      }
+
+      .tab-button {
+        padding: 8px 4px;
+        border: none;
+        background: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+
+      .tab-button.active {
+        color: #2563eb;
+        border-bottom-color: #3b82f6;
+      }
+
+      .tab-button:not(.active) {
+        color: #6b7280;
+      }
+
+      .tab-button:not(.active):hover {
+        color: #374151;
+        border-bottom-color: #d1d5db;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .grid {
+        display: grid;
+        gap: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+
+      .card {
+        background: white;
+        padding: 24px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #111827;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .metric {
+        text-align: center;
+        padding: 16px;
+        background: #f9fafb;
+        border-radius: 6px;
+      }
+
+      .metric-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #111827;
+      }
+
+      .metric-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+
+      .metric-sublabel {
+        font-size: 0.75rem;
+        color: #9ca3af;
+      }
+
+      .signal-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        overflow: hidden;
+      }
+
+      .signal-header {
+        padding: 16px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .signal-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 8px;
+      }
+
+      .signal-rationale {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-bottom: 12px;
+      }
+
+      .signal-scores {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .score-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .score-seller {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .score-buyer {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      .score-lessor {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .score-lessee {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .score-zero {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+
+      .signal-content {
+        padding: 16px;
+      }
+
+      .explanation {
+        margin-bottom: 16px;
+      }
+
+      .explanation h4 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+      }
+
+      .explanation p {
+        font-size: 0.875rem;
+        color: #6b7280;
+        line-height: 1.5;
+      }
+
+      .evidence {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 6px;
+        border-left: 3px solid #cbd5e1;
+      }
+
+      .evidence h4 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+      }
+
+      .evidence p {
+        font-size: 0.8rem;
+        color: #64748b;
+        line-height: 1.4;
+      }
+
+      .summary-section {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      .summary-section h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .summary-box {
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+      }
+
+      .summary-blue {
+        background: #eff6ff;
+        border-left: 4px solid #3b82f6;
+      }
+
+      .summary-green {
+        background: #f0fdf4;
+        border-left: 4px solid #22c55e;
+      }
+
+      .summary-gray {
+        background: #f9fafb;
+        border-left: 4px solid #6b7280;
+      }
+
+      .summary-box h3 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .summary-blue h3 {
+        color: #1e40af;
+      }
+      .summary-green h3 {
+        color: #166534;
+      }
+      .summary-gray h3 {
+        color: #374151;
+      }
+
+      .summary-blue p {
+        color: #1e40af;
+      }
+      .summary-green p {
+        color: #166534;
+      }
+      .summary-gray p {
+        color: #374151;
+      }
+
+      .summary-box ul {
+        color: #374151;
+        padding-left: 20px;
+      }
+
+      .summary-box li {
+        margin-bottom: 4px;
+      }
+
+      .chart-container {
+        position: relative;
+        height: 300px;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Real Estate Intent Analysis</h1>
+        <div class="alert">
+          <p>
+            <strong>Primary Intent: Seller</strong> - Driven by a total score of
+            <strong>26</strong> across <strong>5</strong> signals.
+          </p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-nav">
+          <button class="tab-button active" onclick="showTab('overview')">
+            Overview
+          </button>
+          <button class="tab-button" onclick="showTab('signals')">
+            Signal Analysis
+          </button>
+          <button class="tab-button" onclick="showTab('summary')">
+            Executive Summary
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="overview" class="tab-content active">
+        <div class="grid">
+          <div class="card">
+            <h2>Total Intent Scores</h2>
+            <div class="chart-container">
+              <canvas id="totalScoresChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Average Intent Scores</h2>
+            <div class="chart-container">
+              <canvas id="averageScoresChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Intent Distribution</h2>
+            <div class="chart-container">
+              <canvas id="distributionChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Key Metrics</h2>
+            <div class="metrics-grid">
+              <div class="metric">
+                <div class="metric-value">26</div>
+                <div class="metric-label">Seller Score</div>
+                <div class="metric-sublabel">5 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">25</div>
+                <div class="metric-label">Lessee Score</div>
+                <div class="metric-sublabel">6 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">14</div>
+                <div class="metric-label">Lessor Score</div>
+                <div class="metric-sublabel">5 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">12</div>
+                <div class="metric-label">Buyer Score</div>
+                <div class="metric-sublabel">4 signals</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signals Tab -->
+      <div id="signals" class="tab-content">
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">LLC Dissolution Date</div>
+            <div class="signal-rationale">
+              Dissolving entity often liquidates property assets.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-seller">Seller: 9</span>
+              <span class="score-badge score-buyer">Buyer: 3</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The entity status is active with no current dissolution or
+                suspension, indicating it is not dissolving or liquidating
+                assets at this time. Therefore, the dissolution date signal does
+                not suggest an imminent liquidation or transfer, resulting in a
+                high seller score and low scores for other intents.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Entity status is active, no dissolution date provided, and
+                analysis indicates no signs of distress or imminent dissolution.
+                The entity has met all filing requirements and remains
+                operational.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Recent LLC Formation</div>
+            <div class="signal-rationale">
+              Recent LLCs can signal acquisitions, new operating businesses, or
+              landlord entities.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-lessor">Lessor: 3</span>
+              <span class="score-badge score-lessee">Lessee: 2</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The LLC was formed over 6 years ago with minimal operational
+                activity and no immediate space or operational needs, indicating
+                a passive or holding purpose rather than active leasing or
+                purchasing intent. The low operational signals and long
+                formation age suggest limited current engagement as a seller or
+                buyer, but some potential for future leasing as a lessor or
+                lessee exists due to strategic considerations.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Entity formed over 6 years ago (2009-02-20), with medium
+                operational indicators but no active operational signals or
+                immediate space requirements. Formation age is 6019 days, and
+                the detailed analysis indicates a passive, long-term ownership
+                structure with low current leasing or purchasing activity.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">New LLC (60 days)</div>
+            <div class="signal-rationale">
+              Very recent LLC formation is a peak buyer indicator.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-lessee">Lessor: 2</span>
+              <span class="score-badge score-lessee">Lessee: 3</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The LLC formation exceeds 6 years with no active operational
+                signals, indicating a passive or holding purpose rather than
+                immediate leasing activity. The formation age and lack of
+                operational indicators suggest minimal current leasing intent,
+                with a slight possibility of future leasing or sale.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Entity formed over 6 years ago (6019 days), with medium
+                operational indicators but no active operational signals or
+                immediate space needs. Formation pattern indicates a passive
+                holding or administrative purpose, aligning with low leasing
+                intent.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Investment Entity Patterns</div>
+            <div class="signal-rationale">
+              Entity names with keywords like 'Capital' or 'Holdings' strongly
+              indicate an investor/acquirer.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The entity name 'HBC OFFICE, LLC' does not contain any
+                high-signal keywords such as 'Capital' or 'Holdings'. It appears
+                to be a standard LLC without indicators of an investor or
+                acquirer role.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Entity name lacks high-signal keywords; no evidence of
+                investment entity patterns based on provided name and analysis.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Team Growth Acquisitions</div>
+            <div class="signal-rationale">
+              Hiring for acquisition-focused roles indicates immediate capacity
+              building for purchases.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-buyer">Buyer: 3</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The data indicates limited recent hiring activity for
+                acquisition roles, with the last relevant signals over 180 days
+                ago. The current signals do not suggest immediate acquisition
+                capacity building.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Team expansion analysis shows only one senior-level addition
+                with signals over 180 days old, and no recent hiring activity
+                for acquisition-focused roles within the past 90 days.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">New Non-Real Estate Business</div>
+            <div class="signal-rationale">
+              New operating companies (restaurants, clinics, etc.) are highly
+              likely to be lessees.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-lessee">Lessee: 8</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The entity is a medium operational business formed over 6 years
+                ago with no active operational signals or immediate space needs,
+                indicating it is not currently a lessee but has the potential to
+                become one in the future. Given its formation history and
+                operational indicators, it aligns with the profile of a new
+                non-real estate business that could lease space if operational
+                activity increases.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Formation exceeds 6 years with medium operational indicators and
+                no active operational signals; business type is medium
+                operational; no documented immediate space requirements; long
+                formation history suggests passive or holding purpose.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Commercial Space Dependency</div>
+            <div class="signal-rationale">
+              Industries that cannot operate without a physical location are
+              very strong lessee signals.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The NAICS code does not fall within the must-have-space
+                categories such as Retail, Food, Gyms, or Healthcare. Despite
+                some operational indicators, current signals suggest low
+                immediate space dependency and leasing activity. The entity's
+                long formation history with minimal operational signals
+                indicates a passive or investment-oriented purpose rather than
+                active leasing or operational needs.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                The detailed analysis states that the entity has no active
+                operational signals, minimal space requirements, and is more
+                aligned with a passive holding or administrative purpose.
+                Behavioral indicators show low dependency on physical space.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">High Operational Business Model</div>
+            <div class="signal-rationale">
+              High-operational models that are not in the 'must-have' category
+              are still strong lessee signals.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-lessee">Lessee: 7</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The 'high_operational_business_model' signal is scored based on
+                the absence of the 'commercial_space_dependency' indicator and
+                the presence of a medium operational model, which aligns with
+                the scoring rule for lessee signals. Since
+                'commercial_space_dependency' was not triggered, the lessee
+                score is maximized at 7.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Behavioral indicators show low commercial space dependency and
+                low immediate space need, with a medium operational model. The
+                detailed analysis confirms minimal current activity and no
+                active operational signals, supporting a high lessee score based
+                on the scoring criteria.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Missing Agent Info</div>
+            <div class="signal-rationale">
+              Administrative or compliance issues can be a sign of distress,
+              indicating a higher likelihood to sell.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-seller">Seller: 5</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The statutory agent information is missing, which indicates
+                administrative oversight. According to scoring guidance, this
+                results in a high signal for the seller intent, suggesting
+                potential distress or compliance issues.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                The statutory agent 'MICHAEL P WEST' has an empty address,
+                email, and mailing address fields, indicating missing agent
+                info. The entity is active but shows administrative gaps.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Owner Pain Points</div>
+            <div class="signal-rationale">
+              Different types of operational or financial pain point to
+              different intents.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-seller">Seller: 6</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-lessor">Lessor: 4</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The owner exhibits pain points related to compliance and
+                operational efficiency, indicating operational bottlenecks and
+                administrative issues. These are aligned with operational
+                bottlenecks for lessors, but there is no evidence of financial
+                strain or operational issues specific to buyers or lessees.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Pain points include 'Potential administrative or compliance
+                issues' and 'Addressing compliance and operational efficiency,'
+                which correspond to operational bottlenecks and compliance/admin
+                pain points. No indications of financial strain or operational
+                bottlenecks for tenants or buyers are present.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Owner Influence Level</div>
+            <div class="signal-rationale">
+              The owner's industry focus and network size affects their likely
+              real estate actions.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-seller">Seller: 4</span>
+              <span class="score-badge score-buyer">Buyer: 4</span>
+              <span class="score-badge score-lessor">Lessor: 3</span>
+              <span class="score-badge score-lessee">Lessee: 3</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The owner is primarily a real estate-focused industry player
+                with significant experience and local market influence,
+                indicating moderate influence in real estate transactions. The
+                influence level is enhanced by their active network and
+                established relationships, but their business model and industry
+                focus suggest a moderate to low influence in broader real estate
+                decision-making beyond their immediate operations.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                Owner's industry focus is on Commercial Real Estate Development
+                with active local market involvement, 16 years in business, and
+                established relationships with local banks, construction
+                companies, and real estate associations. Their influence is
+                primarily within their operational scope, not necessarily
+                extending to broader market influence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-header">
+            <div class="signal-title">Owner Post Frequency</div>
+            <div class="signal-rationale">
+              Social media posts about transactions, market trends, or expansion
+              are direct indicators of intent.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-lessee">Seller: 2</span>
+              <span class="score-badge score-lessee">Buyer: 2</span>
+              <span class="score-badge score-lessee">Lessor: 2</span>
+              <span class="score-badge score-lessee">Lessee: 2</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The owner_post_frequency data does not indicate recent
+                transaction-related posts or market trend commentary. Posts
+                appear to be more informational and strategic, with no direct
+                signals of active buying, selling, leasing, or tenant activity.
+                The content is consistent with ongoing operational and
+                development updates rather than transactional intent.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>
+                No recent posts about property transactions, acquisitions,
+                leasing activities, or market trend commentary were identified.
+                Posts are aligned with industry reports, market analysis, and
+                strategic development, which score low on transaction intent and
+                are subject to time decay.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive Summary Tab -->
+      <div id="summary" class="tab-content">
+        <div class="summary-section">
+          <h2>Executive Summary</h2>
+
+          <div class="summary-box summary-blue">
+            <h3>Analysis Summary</h3>
+            <p>
+              The data indicates a strong seller and lessee intent, with high
+              average scores of 5.2 and 4.2 respectively, suggesting active
+              disposition and leasing opportunities. Buyer and lessor signals
+              are comparatively weaker, highlighting a potential market shift
+              towards asset liquidation and occupancy. This environment favors
+              pursuing strategic dispositions and leasing initiatives to
+              capitalize on current market momentum.
+            </p>
+          </div>
+
+          <div class="summary-box summary-green">
+            <h3>Recommended Action</h3>
+            <p>
+              Proceed with targeted outreach to potential sellers and lessees to
+              accelerate transaction opportunities.
+            </p>
+          </div>
+
+          <div class="summary-box summary-gray">
+            <h3>Key Insights</h3>
+            <ul>
+              <li>
+                Seller intent is the strongest signal with 26 total points
+                across 5 indicators
+              </li>
+              <li>
+                Lessee intent follows closely with 25 total points across 6
+                indicators
+              </li>
+              <li>
+                Administrative issues and pain points are driving seller
+                behavior
+              </li>
+              <li>
+                Operational business model signals indicate strong leasing
+                potential
+              </li>
+              <li>Investment and acquisition signals are relatively weak</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showTab(tabName) {
+        // Hide all tab contents
+        const contents = document.querySelectorAll(".tab-content");
+        contents.forEach((content) => content.classList.remove("active"));
+
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll(".tab-button");
+        buttons.forEach((button) => button.classList.remove("active"));
+
+        // Show selected tab content
+        document.getElementById(tabName).classList.add("active");
+
+        // Add active class to clicked button
+        event.target.classList.add("active");
+      }
+
+      // Initialize charts when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        // Total Scores Bar Chart
+        const totalScoresCtx = document
+          .getElementById("totalScoresChart")
+          .getContext("2d");
+        new Chart(totalScoresCtx, {
+          type: "bar",
+          data: {
+            labels: ["Seller", "Buyer", "Lessor", "Lessee"],
+            datasets: [
+              {
+                label: "Total Score",
+                data: [26, 12, 14, 25],
+                backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
+                borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 30,
+              },
+            },
+          },
+        });
+
+        // Average Scores Radar Chart
+        const averageScoresCtx = document
+          .getElementById("averageScoresChart")
+          .getContext("2d");
+        new Chart(averageScoresCtx, {
+          type: "radar",
+          data: {
+            labels: ["Seller", "Buyer", "Lessor", "Lessee"],
+            datasets: [
+              {
+                label: "Average Score",
+                data: [5.2, 3.0, 2.8, 4.2],
+                backgroundColor: "rgba(59, 130, 246, 0.2)",
+                borderColor: "rgba(59, 130, 246, 1)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(59, 130, 246, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(59, 130, 246, 1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              r: {
+                beginAtZero: true,
+                max: 6,
+                ticks: {
+                  stepSize: 1,
+                },
+              },
+            },
+          },
+        });
+
+        // Distribution Pie Chart
+        const distributionCtx = document
+          .getElementById("distributionChart")
+          .getContext("2d");
+        new Chart(distributionCtx, {
+          type: "doughnut",
+          data: {
+            labels: ["Seller", "Buyer", "Lessor", "Lessee"],
+            datasets: [
+              {
+                data: [26, 12, 14, 25],
+                backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
+                borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  padding: 20,
+                  usePointStyle: true,
+                },
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
