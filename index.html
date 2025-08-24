@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real Estate Intent Analysis Dashboard</title>
+    <title>Entity Intent Analysis Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
       * {
@@ -270,11 +270,6 @@
       }
 
       .summary-blue {
-        background: #eff6ff;
-        border-left: 4px solid #3b82f6;
-      }
-
-      .summary-green {
         background: #f0fdf4;
         border-left: 4px solid #22c55e;
       }
@@ -291,9 +286,6 @@
       }
 
       .summary-blue h3 {
-        color: #1e40af;
-      }
-      .summary-green h3 {
         color: #166534;
       }
       .summary-gray h3 {
@@ -301,9 +293,6 @@
       }
 
       .summary-blue p {
-        color: #1e40af;
-      }
-      .summary-green p {
         color: #166534;
       }
       .summary-gray p {
@@ -324,16 +313,71 @@
         height: 300px;
         margin-top: 16px;
       }
+
+      .active-signals-only {
+        margin-bottom: 16px;
+      }
+
+      .filter-toggle {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      .filter-toggle:hover {
+        background: #2563eb;
+      }
+
+      .filter-toggle.inactive {
+        background: #6b7280;
+      }
+
+      .filter-toggle.inactive:hover {
+        background: #4b5563;
+      }
+
+      .sources-section {
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .sources-section h5 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .source-tag {
+        display: inline-block;
+        background: #e0e7ff;
+        color: #3730a3;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        margin-right: 6px;
+        margin-bottom: 4px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>Real Estate Intent Analysis</h1>
+        <h1>Entity Intent Analysis - Mesa Commercial Developments LLC</h1>
         <div class="alert">
           <p>
-            <strong>Primary Intent: Lessee</strong> - Driven by a total score of
-            <strong>20</strong> across <strong>4</strong> signals.
+            <strong>Primary Intent: Buyer</strong> - Driven by a total score of
+            <strong>7</strong> across <strong>1</strong> signal.
           </p>
         </div>
       </div>
@@ -352,6 +396,7 @@
         </div>
       </div>
 
+      <!-- Overview Tab -->
       <div id="overview" class="tab-content active">
         <div class="grid">
           <div class="card">
@@ -379,36 +424,90 @@
             <h2>Key Metrics</h2>
             <div class="metrics-grid">
               <div class="metric">
-                <div class="metric-value">17</div>
+                <div class="metric-value">0</div>
                 <div class="metric-label">Seller Score</div>
-                <div class="metric-sublabel">4 signals</div>
+                <div class="metric-sublabel">0 signals</div>
               </div>
               <div class="metric">
-                <div class="metric-value">20</div>
-                <div class="metric-label">Lessee Score</div>
-                <div class="metric-sublabel">4 signals</div>
-              </div>
-              <div class="metric">
-                <div class="metric-value">9</div>
-                <div class="metric-label">Lessor Score</div>
-                <div class="metric-sublabel">3 signals</div>
-              </div>
-              <div class="metric">
-                <div class="metric-value">11</div>
+                <div class="metric-value">7</div>
                 <div class="metric-label">Buyer Score</div>
-                <div class="metric-sublabel">3 signals</div>
+                <div class="metric-sublabel">1 signal</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Lessor Score</div>
+                <div class="metric-sublabel">0 signals</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Lessee Score</div>
+                <div class="metric-sublabel">0 signals</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Signals Tab -->
       <div id="signals" class="tab-content">
-        <div class="signal-card">
+        <div class="active-signals-only">
+          <button
+            class="filter-toggle"
+            onclick="toggleActiveOnly()"
+            id="filterBtn"
+          >
+            Show Active Signals Only
+          </button>
+        </div>
+
+        <!-- Active Signal -->
+        <div class="signal-card" data-has-score="true">
+          <div class="signal-header">
+            <div class="signal-title">Investment Entity Name Patterns</div>
+            <div class="signal-rationale">
+              Entity names containing keywords like 'Capital', 'Holdings',
+              'Ventures', or 'Properties' are strong indicators of an
+              investment-focused firm geared towards acquisitions.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-buyer">Buyer: 7</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The entity's name, 'MESA COMMERCIAL DEVELOPMENTS LLC', contains
+                investment-related keywords. This naming convention is a strong
+                heuristic for identifying firms structured as investment
+                vehicles, whose primary business is acquiring assets like real
+                estate.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>Entity Name: MESA COMMERCIAL DEVELOPMENTS LLC</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Zero Score Signals -->
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
             <div class="signal-title">LLC Dissolution Date</div>
             <div class="signal-rationale">
-              Dissolving entity often liquidates property assets.
+              An entity that is dissolving or has recently dissolved is highly
+              likely to liquidate its real estate assets as part of the
+              winding-down process.
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
@@ -420,72 +519,70 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>No dissolution date found.</p>
+              <p>
+                The entity's current status is not 'Dissolved' or another
+                terminal status, or the status change occurred more than 12
+                months ago. Therefore, there is no signal of asset liquidation
+                due to entity dissolution.
+              </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>N/A</p>
+              <p>Entity Status: Active, Status Date: 11/12/2021</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
+          <div class="signal-header">
+            <div class="signal-title">Entity Not in Good Standing</div>
+            <div class="signal-rationale">
+              Losing 'Good Standing' status due to delinquency or revocation
+              often signals compliance or financial issues, which can pressure
+              an entity to sell assets.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>
+                The entity is currently in good standing with a status of
+                'Active'. This indicates normal business operations and no
+                distress signal related to its corporate compliance.
+              </p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>Entity Status: Active</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
             <div class="signal-title">Recent LLC Formation</div>
             <div class="signal-rationale">
-              Recent LLCs can signal acquisitions, new operating businesses, or
-              landlord entities.
-            </div>
-            <div class="signal-scores">
-              <span class="score-badge score-zero">Seller: 0</span>
-              <span class="score-badge score-zero">Buyer: 0</span>
-              <span class="score-badge score-zero">Lessor: 0</span>
-              <span class="score-badge score-zero">Lessee: 0</span>
-            </div>
-          </div>
-          <div class="signal-content">
-            <div class="explanation">
-              <h4>Explanation</h4>
-              <p>Signal not triggered (age is <60 or >365 days).</p>
-            </div>
-            <div class="evidence">
-              <h4>Evidence</h4>
-              <p>N/A</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="signal-card">
-          <div class="signal-header">
-            <div class="signal-title">New LLC (60 days)</div>
-            <div class="signal-rationale">
-              Very recent LLC formation is a peak buyer indicator.
-            </div>
-            <div class="signal-scores">
-              <span class="score-badge score-zero">Seller: 0</span>
-              <span class="score-badge score-zero">Buyer: 0</span>
-              <span class="score-badge score-zero">Lessor: 0</span>
-              <span class="score-badge score-zero">Lessee: 0</span>
-            </div>
-          </div>
-          <div class="signal-content">
-            <div class="explanation">
-              <h4>Explanation</h4>
-              <p>Entity is older than 60 days.</p>
-            </div>
-            <div class="evidence">
-              <h4>Evidence</h4>
-              <p>N/A</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="signal-card">
-          <div class="signal-header">
-            <div class="signal-title">Investment Entity Patterns</div>
-            <div class="signal-rationale">
-              Entity names with keywords like 'Capital' or 'Holdings' strongly
-              indicate an investor/acquirer.
+              Newly formed LLCs (<1 year) are frequently created as special
+              purpose vehicles for acquiring property, holding investments, or
+              housing a new operating business.
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
@@ -498,30 +595,31 @@
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The entity name 'HBC OFFICE, LLC' does not contain high-signal
-                keywords like 'Capital' or 'Holdings' that indicate an investor
-                or acquirer. It also lacks medium-signal keywords such as
-                'Group' or 'Enterprises'. Therefore, the scores for buyer,
-                seller, lessor, and lessee are all minimal.
+                The entity was formed on 11/12/2021, which is more than 12
+                months ago. It is considered an established entity, so this
+                signal for new formation intent does not apply.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Entity name 'HBC OFFICE, LLC' contains no keywords from the
-                high-signal list ('Capital', 'Holdings', etc.) or medium-signal
-                list ('Group', 'Enterprises', etc.).
-              </p>
+              <p>Formation Date: 11/12/2021</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Team Growth Acquisitions</div>
+            <div class="signal-title">Out of State LLC</div>
             <div class="signal-rationale">
-              Hiring for acquisition-focused roles indicates immediate capacity
-              building for purchases.
+              An LLC domiciled out-of-state but registered in Arizona is often
+              expanding its geographic footprint, which typically requires
+              acquiring or developing new property.
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
@@ -533,62 +631,32 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>No recent acquisition-focused hiring detected.</p>
-            </div>
-            <div class="evidence">
-              <h4>Evidence</h4>
-              <p>N/A</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="signal-card">
-          <div class="signal-header">
-            <div class="signal-title">New Non-Real Estate Business</div>
-            <div class="signal-rationale">
-              New operating companies (restaurants, clinics, etc.) are highly
-              likely to be lessees.
-            </div>
-            <div class="signal-scores">
-              <span class="score-badge score-zero">Seller: 0</span>
-              <span class="score-badge score-zero">Buyer: 0</span>
-              <span class="score-badge score-zero">Lessor: 0</span>
-              <span class="score-badge score-lessee">Lessee: 8</span>
-            </div>
-          </div>
-          <div class="signal-content">
-            <div class="explanation">
-              <h4>Explanation</h4>
               <p>
-                The entity is a new, operational business with medium
-                operational indicators and formed over 6 years ago, indicating a
-                potential for future leasing activity. Currently, there are no
-                active operational signals or immediate space needs, but the
-                business type and formation pattern suggest it could become a
-                lessee in the future. Based on the rationale, such entities are
-                highly likely to be lessees once operational signals or space
-                requirements emerge.
+                The entity is domiciled in Arizona. This signal, which targets
+                out-of-state entities expanding into the market, is not
+                applicable.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Formation exceeds 6 years with medium operational indicators and
-                no active operational signals; business type is medium
-                operational; no documented immediate space needs; formation
-                pattern indicates a passive or administrative purpose rather
-                than immediate leasing activity.
-              </p>
+              <p>Domicile State: Arizona</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Commercial Space Dependency</div>
+            <div class="signal-title">New LLC with Real Estate Purpose</div>
             <div class="signal-rationale">
-              Industries that cannot operate without a physical location are
-              very strong lessee signals.
+              A newly formed entity with an explicitly stated real estate
+              purpose (e.g., 'Real Estate and Rental and Leasing') has a very
+              high probability of being an acquisition or development vehicle.
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
@@ -600,21 +668,38 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>Business industry is not on the space-dependent list.</p>
+              <p>
+                The entity is either not newly formed or its stated business
+                purpose does not contain explicit real estate keywords.
+                Therefore, this high-intent signal for a new, purpose-built
+                acquisition vehicle is not triggered.
+              </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>N/A</p>
+              <p>
+                Formation Date: 11/12/2021, Business Type: Real Estate and
+                Rental and Leasing
+              </p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">High Operational Business Model</div>
+            <div class="signal-title">
+              New Non-Real Estate Business Entity Formation
+            </div>
             <div class="signal-rationale">
-              High-operational models that are not in the 'must-have' category
-              are still strong lessee signals.
+              A brand new operating business (e.g., retail, restaurant, clinic)
+              formed within the last 4 months has an immediate and urgent need
+              to lease physical space to begin operations.
             </div>
             <div class="signal-scores">
               <span class="score-badge score-zero">Seller: 0</span>
@@ -626,24 +711,39 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>Business is not classified as high-operational.</p>
+              <p>
+                The entity is either older than 4 months or its business type
+                does not match the profile of a typical new space-seeking
+                operating company. This signal for urgent lessee intent is not
+                applicable.
+              </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>N/A</p>
+              <p>
+                Formation Date: 11/12/2021, Business Type: Real Estate and
+                Rental and Leasing
+              </p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Missing Agent Info</div>
+            <div class="signal-title">Entity News - Seller Intent</div>
             <div class="signal-rationale">
-              Administrative or compliance issues can be a sign of distress,
-              indicating a higher likelihood to sell.
+              A recent news article or press release explicitly stating that the
+              entity is selling, listing, or disposing of property is the most
+              direct signal of seller intent.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-seller">Seller: 5</span>
+              <span class="score-badge score-zero">Seller: 0</span>
               <span class="score-badge score-zero">Buyer: 0</span>
               <span class="score-badge score-zero">Lessor: 0</span>
               <span class="score-badge score-zero">Lessee: 0</span>
@@ -652,137 +752,167 @@
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
-              <p>Registered agent information is missing.</p>
+              <p>
+                No recent news articles were found indicating seller intent.
+              </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>Agent field was empty.</p>
+              <p>No relevant news.</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag">Apollo.io</span>
+              <span class="source-tag">Google News</span>
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Owner Pain Points</div>
+            <div class="signal-title">Entity News - Buyer Intent</div>
             <div class="signal-rationale">
-              Different types of operational or financial pain point to
-              different intents.
+              A news report about the entity acquiring, purchasing, or
+              developing property is direct evidence of active buyer intent and
+              market expansion.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-seller">Seller: 6</span>
-              <span class="score-badge score-buyer">Buyer: 5</span>
-              <span class="score-badge score-lessor">Lessor: 4</span>
-              <span class="score-badge score-lessee">Lessee: 7</span>
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
+            </div>
+          </div>
+          <div class="signal-content">
+            <div class="explanation">
+              <h4>Explanation</h4>
+              <p>No recent news articles were found indicating buyer intent.</p>
+            </div>
+            <div class="evidence">
+              <h4>Evidence</h4>
+              <p>No relevant news.</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag">Apollo.io</span>
+              <span class="source-tag">Google News</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-card" data-has-score="false">
+          <div class="signal-header">
+            <div class="signal-title">Entity News - Lessor Intent</div>
+            <div class="signal-rationale">
+              A news announcement about the entity launching leasing efforts,
+              seeking tenants, or appointing a leasing broker is a definitive
+              signal of lessor intent.
+            </div>
+            <div class="signal-scores">
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner faces operational bottlenecks and compliance issues,
-                indicated by pain points such as administrative and compliance
-                concerns, aligning with operational and administrative pain
-                categories. The presence of administrative issues and
-                operational efficiency focus suggests moderate operational and
-                compliance pain points, scoring around 5-6. Financial strain
-                appears less prominent, and strategic/growth gaps are not
-                explicitly indicated, leading to moderate scores.
+                No recent news articles were found indicating lessor intent.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                The data highlights potential administrative or compliance
-                issues and operational efficiency concerns, which correspond to
-                operational bottlenecks and compliance/admin pain points. The
-                owner’s focus on operational efficiency, compliance, and
-                existing vendor relationships supports this assessment. No
-                explicit financial strain or growth gap pain points are evident,
-                aligning with moderate scores.
-              </p>
+              <p>No relevant news.</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag">Apollo.io</span>
+              <span class="source-tag">Google News</span>
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Owner Influence Level</div>
+            <div class="signal-title">Entity News - Lessee Intent</div>
             <div class="signal-rationale">
-              The owner's industry focus and network size affects their likely
-              real estate actions.
+              A news report confirming the entity has signed a new lease, is
+              relocating, or is actively seeking space is the strongest
+              indicator of tenant (lessee) demand.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-seller">Seller: 4</span>
-              <span class="score-badge score-buyer">Buyer: 4</span>
-              <span class="score-badge score-lessor">Lessor: 3</span>
-              <span class="score-badge score-lessee">Lessee: 3</span>
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner is primarily a real estate-focused professional with
-                extensive experience in property management and development,
-                indicating a moderate influence level. Their network size is
-                medium, which slightly reduces their influence score. The
-                influence type is more aligned with real estate activities
-                rather than broad business leadership, resulting in moderate
-                scores across all categories.
+                No recent news articles were found indicating lessee intent.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
-              <p>
-                Owner's industry focus is on Commercial Real Estate Development
-                with 16 years in business, active involvement in local real
-                estate associations, and established relationships with brokers,
-                lenders, and service providers. Their network size is medium,
-                and their influence is primarily within the real estate sector,
-                not broader business industries.
-              </p>
+              <p>No relevant news.</p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag">Apollo.io</span>
+              <span class="source-tag">Google News</span>
             </div>
           </div>
         </div>
 
-        <div class="signal-card">
+        <div class="signal-card" data-has-score="false">
           <div class="signal-header">
-            <div class="signal-title">Owner Post Frequency</div>
+            <div class="signal-title">NAICS Codes</div>
             <div class="signal-rationale">
-              Social media posts about transactions, market trends, or expansion
-              are direct indicators of intent.
+              Classifies the entity's primary business activity using either a
+              direct NAICS code or the ACC's text-based 'business_type' as a
+              fallback. This provides crucial context for tailoring outreach but
+              does not directly score intent.
             </div>
             <div class="signal-scores">
-              <span class="score-badge score-seller">Seller: 2</span>
-              <span class="score-badge score-buyer">Buyer: 2</span>
-              <span class="score-badge score-lessor">Lessor: 2</span>
-              <span class="score-badge score-lessee">Lessee: 2</span>
+              <span class="score-badge score-zero">Seller: 0</span>
+              <span class="score-badge score-zero">Buyer: 0</span>
+              <span class="score-badge score-zero">Lessor: 0</span>
+              <span class="score-badge score-zero">Lessee: 0</span>
             </div>
           </div>
           <div class="signal-content">
             <div class="explanation">
               <h4>Explanation</h4>
               <p>
-                The owner_post_frequency data indicates primarily generic or
-                market commentary posts, with no transaction-related content.
-                Posts are likely older than 180 days, leading to a low score
-                across all categories. There is no recent or direct transaction
-                activity evident from the data.
+                No direct NAICS code was found. Using the fallback from the
+                Arizona Corporation Commission, the entity's stated business
+                type is 'Real Estate and Rental and Leasing'. This provides a
+                strong directional clue for segmenting leads and understanding
+                the entity's general market.
               </p>
             </div>
             <div class="evidence">
               <h4>Evidence</h4>
               <p>
-                The rationale specifies that transaction-related posts score
-                7-8, market commentary scores 5, and generic posts score 2. The
-                data suggests posts are not recent and lack direct transaction
-                content, resulting in baseline scores of 2 for all signals.
+                Source: ACC Business Type - 'Real Estate and Rental and Leasing'
               </p>
+            </div>
+            <div class="sources-section">
+              <h5>Data Sources</h5>
+              <span class="source-tag">Apollo.io</span>
+              <span class="source-tag"
+                >Arizona Corporation Commission (ACC)</span
+              >
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Executive Summary Tab -->
       <div id="summary" class="tab-content">
         <div class="summary-section">
           <h2>Executive Summary</h2>
@@ -790,22 +920,19 @@
           <div class="summary-box summary-blue">
             <h3>Analysis Summary</h3>
             <p>
-              The data indicates a strong and highly confident interest from
-              lessees, with the highest average intent score of 5.0 across
-              multiple signals, suggesting active demand for leasing
-              opportunities. Conversely, seller and buyer signals are moderate,
-              while lessor intent remains relatively low, highlighting a current
-              market environment favoring leasing over sales or ownership
-              transfers. This trend underscores the importance of focusing on
-              lease-driven strategies in the near term.
+              The primary intent of MESA COMMERCIAL DEVELOPMENTS LLC is buyer
+              activity with a total score of 7, driven by signals indicating a
+              focus on investment-related entity names such as 'Capital' or
+              'Ventures'.
             </p>
           </div>
 
-          <div class="summary-box summary-green">
+          <div class="summary-box summary-blue">
             <h3>Recommended Action</h3>
             <p>
-              Prioritize expanding leasing opportunities and engage with
-              high-intent lessees to capitalize on current market demand.
+              Engage the target entity regarding their real estate acquisition
+              needs, justified by their strong buyer intent signals and
+              investment-oriented naming patterns.
             </p>
           </div>
 
@@ -813,21 +940,24 @@
             <h3>Key Insights</h3>
             <ul>
               <li>
-                Lessee intent is the strongest signal with 20 total points
-                across 4 indicators.
+                Buyer intent dominates with 7 total points from 1 active signal
               </li>
               <li>
-                Seller intent follows with 17 total points across 4 indicators.
+                Entity name contains investment-related keywords indicating
+                acquisition focus
               </li>
               <li>
-                Lessee behavior is driven by the 'new non-real estate business'
-                and 'owner pain points' signals.
+                Business type registered as 'Real Estate and Rental and Leasing'
               </li>
               <li>
-                Seller intent is driven by 'missing agent info' and 'owner pain
-                points'.
+                Entity formed on 11/12/2021 - established operation (3+ years)
               </li>
-              <li>Buyer and Lessor signals are comparatively weaker.</li>
+              <li>Arizona-domiciled LLC in good standing with active status</li>
+              <li>No recent news coverage indicating market activity</li>
+              <li>
+                Strong potential for real estate acquisition activities based on
+                naming convention
+              </li>
             </ul>
           </div>
         </div>
@@ -835,6 +965,8 @@
     </div>
 
     <script>
+      let showActiveOnly = false;
+
       function showTab(tabName) {
         // Hide all tab contents
         const contents = document.querySelectorAll(".tab-content");
@@ -851,6 +983,28 @@
         event.target.classList.add("active");
       }
 
+      function toggleActiveOnly() {
+        showActiveOnly = !showActiveOnly;
+        const filterBtn = document.getElementById("filterBtn");
+        const signalCards = document.querySelectorAll(".signal-card");
+
+        if (showActiveOnly) {
+          filterBtn.textContent = "Show All Signals";
+          filterBtn.classList.remove("inactive");
+          signalCards.forEach((card) => {
+            if (card.getAttribute("data-has-score") === "false") {
+              card.style.display = "none";
+            }
+          });
+        } else {
+          filterBtn.textContent = "Show Active Signals Only";
+          filterBtn.classList.add("inactive");
+          signalCards.forEach((card) => {
+            card.style.display = "block";
+          });
+        }
+      }
+
       // Initialize charts when page loads
       document.addEventListener("DOMContentLoaded", function () {
         // Total Scores Bar Chart
@@ -864,7 +1018,7 @@
             datasets: [
               {
                 label: "Total Score",
-                data: [17, 11, 9, 20],
+                data: [0, 7, 0, 0],
                 backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
                 borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
                 borderWidth: 1,
@@ -882,7 +1036,7 @@
             scales: {
               y: {
                 beginAtZero: true,
-                max: 25,
+                max: 10,
               },
             },
           },
@@ -899,7 +1053,7 @@
             datasets: [
               {
                 label: "Average Score",
-                data: [4.3, 3.7, 3.0, 5.0],
+                data: [0, 7.0, 0, 0],
                 backgroundColor: "rgba(59, 130, 246, 0.2)",
                 borderColor: "rgba(59, 130, 246, 1)",
                 borderWidth: 2,
@@ -921,9 +1075,9 @@
             scales: {
               r: {
                 beginAtZero: true,
-                max: 6,
+                max: 10,
                 ticks: {
-                  stepSize: 1,
+                  stepSize: 2,
                 },
               },
             },
@@ -937,12 +1091,12 @@
         new Chart(distributionCtx, {
           type: "doughnut",
           data: {
-            labels: ["Seller", "Buyer", "Lessor", "Lessee"],
+            labels: ["Buyer"],
             datasets: [
               {
-                data: [17, 11, 9, 20],
-                backgroundColor: ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"],
-                borderColor: ["#dc2626", "#2563eb", "#16a34a", "#d97706"],
+                data: [7],
+                backgroundColor: ["#3b82f6"],
+                borderColor: ["#2563eb"],
                 borderWidth: 2,
               },
             ],
